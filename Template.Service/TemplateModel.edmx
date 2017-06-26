@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreRemitente" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DireccionRemitente" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DireccionesCC" Type="varchar" MaxLength="100" />
+          <Property Name="DireccionesCCO" Type="varchar" MaxLength="100" />
+          <Property Name="Asunto" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Cuerpo" Type="varchar(max)" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Icono">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Menu_Id" Type="int" />
+          <Property Name="Url" Type="varchar" MaxLength="50" />
+          <Property Name="Icono" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Texto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ayuda" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Orden" Type="int" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="RolMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rol_Id" Type="int" Nullable="false" />
+          <Property Name="Menu_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RolUsuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rol_Id" Type="int" Nullable="false" />
+          <Property Name="Usuario_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Foto" Type="image" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido_Paterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido_Materno" Type="varchar" MaxLength="50" />
+          <Property Name="Ultimo_Acceso" Type="datetime" />
+          <Property Name="Debe_Cambiar_Password" Type="bit" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Menu_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="Menu1" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu1">
+              <PropertyRef Name="Menu_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolMenu_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="RolMenu" Type="Self.RolMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolMenu">
+              <PropertyRef Name="Menu_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolMenu_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="RolMenu" Type="Self.RolMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolMenu">
+              <PropertyRef Name="Rol_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolUsuario_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="RolUsuario" Type="Self.RolUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolUsuario">
+              <PropertyRef Name="Rol_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolUsuario_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="RolUsuario" Type="Self.RolUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolUsuario">
+              <PropertyRef Name="Usuario_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Email" EntityType="Self.Email" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Icono" EntityType="Self.Icono" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolMenu" EntityType="Self.RolMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolUsuario" EntityType="Self.RolUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Menu_Menu" Association="Self.FK_Menu_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Menu1" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolMenu_Menu" Association="Self.FK_RolMenu_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="RolMenu" EntitySet="RolMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolMenu_Rol" Association="Self.FK_RolMenu_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="RolMenu" EntitySet="RolMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolUsuario_Rol" Association="Self.FK_RolUsuario_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="RolUsuario" EntitySet="RolUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolUsuario_Usuario" Association="Self.FK_RolUsuario_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="RolUsuario" EntitySet="RolUsuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TemplateEntities" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="Menu" EntityType="Model.Menu" />
+          <EntitySet Name="Rol" EntityType="Model.Rol" />
+          <EntitySet Name="RolMenu" EntityType="Model.RolMenu" />
+          <EntitySet Name="RolUsuario" EntityType="Model.RolUsuario" />
+          <EntitySet Name="Usuario" EntityType="Model.Usuario" />
+          <AssociationSet Name="FK_Menu_Menu" Association="Model.FK_Menu_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Menu1" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolMenu_Menu" Association="Model.FK_RolMenu_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="RolMenu" EntitySet="RolMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolMenu_Rol" Association="Model.FK_RolMenu_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="RolMenu" EntitySet="RolMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolUsuario_Rol" Association="Model.FK_RolUsuario_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="RolUsuario" EntitySet="RolUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolUsuario_Usuario" Association="Model.FK_RolUsuario_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="RolUsuario" EntitySet="RolUsuario" />
+          </AssociationSet>
+          <EntitySet Name="Email" EntityType="Model.Email" />
+          <EntitySet Name="Icono" EntityType="Model.Icono" />
+          </EntityContainer>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Menu_Id" Type="Int32" />
+          <Property Name="Url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Icono" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Texto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ayuda" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Orden" Type="Int32" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Menu1" Relationship="Model.FK_Menu_Menu" FromRole="Menu" ToRole="Menu1" />
+          <NavigationProperty Name="Menu2" Relationship="Model.FK_Menu_Menu" FromRole="Menu1" ToRole="Menu" />
+          <NavigationProperty Name="RolMenu" Relationship="Model.FK_RolMenu_Menu" FromRole="Menu" ToRole="RolMenu" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RolMenu" Relationship="Model.FK_RolMenu_Rol" FromRole="Rol" ToRole="RolMenu" />
+          <NavigationProperty Name="RolUsuario" Relationship="Model.FK_RolUsuario_Rol" FromRole="Rol" ToRole="RolUsuario" />
+        </EntityType>
+        <EntityType Name="RolMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rol_Id" Type="Int32" Nullable="false" />
+          <Property Name="Menu_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Menu" Relationship="Model.FK_RolMenu_Menu" FromRole="RolMenu" ToRole="Menu" />
+          <NavigationProperty Name="Rol" Relationship="Model.FK_RolMenu_Rol" FromRole="RolMenu" ToRole="Rol" />
+        </EntityType>
+        <EntityType Name="RolUsuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rol_Id" Type="Int32" Nullable="false" />
+          <Property Name="Usuario_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rol" Relationship="Model.FK_RolUsuario_Rol" FromRole="RolUsuario" ToRole="Rol" />
+          <NavigationProperty Name="Usuario" Relationship="Model.FK_RolUsuario_Usuario" FromRole="RolUsuario" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido_Paterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido_Materno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ultimo_Acceso" Type="DateTime" Precision="3" />
+          <Property Name="Debe_Cambiar_Password" Type="Boolean" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RolUsuario" Relationship="Model.FK_RolUsuario_Usuario" FromRole="Usuario" ToRole="RolUsuario" />
+        </EntityType>
+        <Association Name="FK_Menu_Menu">
+          <End Type="Model.Menu" Role="Menu" Multiplicity="0..1" />
+          <End Type="Model.Menu" Role="Menu1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu1">
+              <PropertyRef Name="Menu_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolMenu_Menu">
+          <End Type="Model.Menu" Role="Menu" Multiplicity="1" />
+          <End Type="Model.RolMenu" Role="RolMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolMenu">
+              <PropertyRef Name="Menu_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolMenu_Rol">
+          <End Type="Model.Rol" Role="Rol" Multiplicity="1" />
+          <End Type="Model.RolMenu" Role="RolMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolMenu">
+              <PropertyRef Name="Rol_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolUsuario_Rol">
+          <End Type="Model.Rol" Role="Rol" Multiplicity="1" />
+          <End Type="Model.RolUsuario" Role="RolUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolUsuario">
+              <PropertyRef Name="Rol_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolUsuario_Usuario">
+          <End Type="Model.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="Model.RolUsuario" Role="RolUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RolUsuario">
+              <PropertyRef Name="Usuario_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreRemitente" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionRemitente" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionesCC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionesCCO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Asunto" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Cuerpo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Icono">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="TemplateEntities">
+          <EntitySetMapping Name="Menu">
+            <EntityTypeMapping TypeName="Model.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Ayuda" ColumnName="Ayuda" />
+                <ScalarProperty Name="Texto" ColumnName="Texto" />
+                <ScalarProperty Name="Icono" ColumnName="Icono" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Menu_Id" ColumnName="Menu_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="Model.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolMenu">
+            <EntityTypeMapping TypeName="Model.RolMenu">
+              <MappingFragment StoreEntitySet="RolMenu">
+                <ScalarProperty Name="Menu_Id" ColumnName="Menu_Id" />
+                <ScalarProperty Name="Rol_Id" ColumnName="Rol_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolUsuario">
+            <EntityTypeMapping TypeName="Model.RolUsuario">
+              <MappingFragment StoreEntitySet="RolUsuario">
+                <ScalarProperty Name="Usuario_Id" ColumnName="Usuario_Id" />
+                <ScalarProperty Name="Rol_Id" ColumnName="Rol_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="Model.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Debe_Cambiar_Password" ColumnName="Debe_Cambiar_Password" />
+                <ScalarProperty Name="Ultimo_Acceso" ColumnName="Ultimo_Acceso" />
+                <ScalarProperty Name="Apellido_Materno" ColumnName="Apellido_Materno" />
+                <ScalarProperty Name="Apellido_Paterno" ColumnName="Apellido_Paterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Email">
+            <EntityTypeMapping TypeName="Model.Email">
+              <MappingFragment StoreEntitySet="Email">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cuerpo" ColumnName="Cuerpo" />
+                <ScalarProperty Name="Asunto" ColumnName="Asunto" />
+                <ScalarProperty Name="DireccionesCCO" ColumnName="DireccionesCCO" />
+                <ScalarProperty Name="DireccionesCC" ColumnName="DireccionesCC" />
+                <ScalarProperty Name="DireccionRemitente" ColumnName="DireccionRemitente" />
+                <ScalarProperty Name="NombreRemitente" ColumnName="NombreRemitente" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Icono">
+            <EntityTypeMapping TypeName="Model.Icono">
+              <MappingFragment StoreEntitySet="Icono">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
