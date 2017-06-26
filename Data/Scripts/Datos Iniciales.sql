@@ -17,15 +17,15 @@ DBCC CHECKIDENT([RolMenu], RESEED, 0)
 DBCC CHECKIDENT([RolUsuario], RESEED, 0)
 DBCC CHECKIDENT([Usuario], RESEED, 0)
 
-INSERT INTO [Menu] VALUES  ( NULL,'/Administration','icon-th-large','Administración','Menú de Administración del Sistema.',1,1)
-INSERT INTO [Menu] VALUES  ( 1,'/Administration/Role','icon-tasks','Rol','Menú de Administración de Roles.',2,1)
-INSERT INTO [Menu] VALUES  ( 1,'/Administration/User','icon-group','Usuario','Menú de Administración de Usuarios.',3,1)
-INSERT INTO [Menu] VALUES  ( 1,'/Administration/Menu','icon-th-list','Menú','Menú de Administración de Opciones de Menú.',4,1)
-INSERT INTO [Menu] VALUES  ( NULL,'/Home/Help','icon-question-sign','Ayuda','Menú de Ayuda.',5,1)
-INSERT INTO [Rol] VALUES  ( 'Administrador', 1, 'Rol de Administración del Sistema.' )
-INSERT INTO [Rol] VALUES  ( 'Usuario', 1, 'Rol de Usuario Común del Sistema.' )
-INSERT INTO [Usuario] VALUES  ( 'gerardogaldames@gmail.com','f1lLXFpXHwA=',NULL,'Gerardo','Galdames','Díaz','2016-11-10 17:44:08',0,1 )
-INSERT INTO [Usuario] VALUES  ( 'gerardo.galdames@iconstruye.com','f1lLXFpXHwA=',NULL,'Gerardo','Galdames','Díaz','2016-11-10 17:44:08',0,1 )
+INSERT INTO [Menu] VALUES  ( NULL,'/Administration','icon-th-large','AdministraciÃ³n','MenÃº de AdministraciÃ³n del Sistema.',1,1)
+INSERT INTO [Menu] VALUES  ( 1,'/Administration/Role','icon-tasks','Rol','MenÃº de AdministraciÃ³n de Roles.',2,1)
+INSERT INTO [Menu] VALUES  ( 1,'/Administration/User','icon-group','Usuario','MenÃº de AdministraciÃ³n de Usuarios.',3,1)
+INSERT INTO [Menu] VALUES  ( 1,'/Administration/Menu','icon-th-list','MenÃº','MenÃº de AdministraciÃ³n de Opciones de MenÃº.',4,1)
+INSERT INTO [Menu] VALUES  ( NULL,'/Home/Help','icon-question-sign','Ayuda','MenÃº de Ayuda.',5,1)
+INSERT INTO [Rol] VALUES  ( 'Administrador', 1, 'Rol de AdministraciÃ³n del Sistema.' )
+INSERT INTO [Rol] VALUES  ( 'Usuario', 1, 'Rol de Usuario ComÃºn del Sistema.' )
+INSERT INTO [Usuario] VALUES  ( 'carlospobletee@gmail.com','f1lLXFpXHwA=',NULL,'Carlos','Poblete','Escalona','2016-11-10 17:44:08',0,1 )
+INSERT INTO [Usuario] VALUES  ( 'carlospobletee@gmail.com','f1lLXFpXHwA=',NULL,'Carlos','Poblete','Escalona','2016-11-10 17:44:08',0,1 )
 INSERT INTO [RolUsuario] VALUES  ( 1, 1 )
 INSERT INTO [RolUsuario] VALUES  ( 2, 2 )
 INSERT [RolMenu] VALUES  ( 1, 1 )
@@ -71,9 +71,9 @@ VALUES  ( 'Template'
 <body>
 	<p><strong>Estimad@ {NombreDestinatario}</strong></p>
 	<br><br>
-	<p class="parrafo">Hemos recibido una solicitud para cambiar su contraseña en <strong>{NombreAplicacion}</strong></p>
+	<p class="parrafo">Hemos recibido una solicitud para cambiar su contraseÃ±a en <strong>{NombreAplicacion}</strong></p>
 	<br><br>
-	<p class="parrafo">Su nueva contraseña es <strong>{NuevaPassword}</strong>, le recomendamos encarecidamente actualizarla lo antes posible.</p>
+	<p class="parrafo">Su nueva contraseÃ±a es <strong>{NuevaPassword}</strong>, le recomendamos encarecidamente actualizarla lo antes posible.</p>
 	<br><br>
 	<p>Atentamente,</p>
 	<p>El Equipo de {NombreAplicacion}.</p>
